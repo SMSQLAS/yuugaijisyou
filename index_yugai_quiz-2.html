@@ -1,0 +1,869 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>薬学的有害事象等防止加算クイズ</title>
+  <style>
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #eef8f8;
+  --card: #ffffff;
+  --text: #17333a;
+  --muted: #64777c;
+  --primary: #168f96;
+  --primary-dark: #0f747a;
+  --primary-soft: #e1f5f5;
+  --border: #d6e5e7;
+  --correct-bg: #eaf8ef;
+  --correct-text: #166534;
+  --wrong-bg: #fff0f0;
+  --wrong-text: #a12626;
+  --notice-bg: #f5fbfb;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Noto Sans JP",
+    "Hiragino Kaku Gothic ProN",
+    "Yu Gothic",
+    sans-serif;
+  line-height: 1.7;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app-shell {
+  width: min(760px, calc(100% - 24px));
+  margin: 0 auto;
+  padding: 22px 0 48px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 26px;
+  box-shadow: 0 8px 24px rgba(24, 79, 85, 0.08);
+}
+
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+.badge {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+h1,
+h2 {
+  line-height: 1.35;
+}
+
+h1 {
+  margin: 4px 0 14px;
+  font-size: clamp(1.45rem, 5vw, 2rem);
+}
+
+h2 {
+  margin: 6px 0 10px;
+}
+
+.lead {
+  margin: 0 0 18px;
+  color: var(--muted);
+}
+
+.notice,
+.code-guide {
+  margin: 16px 0;
+  padding: 16px;
+  border-radius: 14px;
+  background: var(--notice-bg);
+  border: 1px solid var(--border);
+}
+
+.notice p,
+.code-guide p {
+  margin: 5px 0;
+}
+
+.question-count {
+  margin: 18px 0 10px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.primary-button,
+.secondary-button {
+  width: 100%;
+  min-height: 50px;
+  border: 0;
+  border-radius: 13px;
+  padding: 12px 16px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.primary-button {
+  background: var(--primary);
+  color: #fff;
+}
+
+.primary-button:hover {
+  background: var(--primary-dark);
+}
+
+.secondary-button {
+  margin-top: 12px;
+  background: #e8eff0;
+  color: var(--text);
+}
+
+.primary-button:disabled,
+.secondary-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.progress-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-weight: 800;
+}
+
+.progress-track {
+  height: 9px;
+  margin: 10px 0 24px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e6eeee;
+}
+
+.progress-bar {
+  width: 10%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--primary);
+  transition: width 0.25s ease;
+}
+
+.question {
+  margin-bottom: 20px;
+  font-size: 1.08rem;
+}
+
+.question strong {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1.05rem;
+}
+
+.case-box {
+  margin-top: 10px;
+  padding: 15px;
+  border-left: 4px solid var(--primary);
+  border-radius: 10px;
+  background: #f7fbfb;
+}
+
+.answer-buttons {
+  display: grid;
+  gap: 11px;
+}
+
+.answer-button {
+  width: 100%;
+  min-height: 52px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: #fff;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.answer-button:hover {
+  border-color: var(--primary);
+  background: #f8fdfd;
+}
+
+.answer-button:disabled {
+  cursor: default;
+}
+
+.answer-button.correct-choice {
+  border-color: #70bd88;
+  background: var(--correct-bg);
+}
+
+.answer-button.wrong-choice {
+  border-color: #e29a9a;
+  background: var(--wrong-bg);
+}
+
+.feedback {
+  margin: 18px 0;
+  padding: 15px 16px;
+  border-radius: 13px;
+  font-weight: 650;
+}
+
+.feedback.correct {
+  background: var(--correct-bg);
+  color: var(--correct-text);
+}
+
+.feedback.wrong {
+  background: var(--wrong-bg);
+  color: var(--wrong-text);
+}
+
+.explanation {
+  display: block;
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.result-score {
+  margin: 12px 0 4px;
+  font-size: 1.3rem;
+  font-weight: 900;
+}
+
+.wrong-answer-text {
+  margin-bottom: 22px;
+  color: var(--muted);
+}
+
+form label {
+  display: block;
+  margin: 15px 0;
+  font-weight: 750;
+}
+
+input[type="text"] {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 6px;
+  padding: 10px 12px;
+  border: 1px solid #bdced1;
+  border-radius: 11px;
+  color: var(--text);
+  background: #fff;
+  font-size: 16px;
+}
+
+fieldset {
+  margin: 20px 0;
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+}
+
+legend {
+  padding: 0 6px;
+  font-weight: 800;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  margin: 3px 0;
+  font-weight: 600;
+}
+
+.radio-label input {
+  width: 19px;
+  height: 19px;
+}
+
+.form-error {
+  color: #b42318;
+  font-weight: 700;
+}
+
+.send-status {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 11px;
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+
+@media (max-width: 560px) {
+  .app-shell {
+    width: min(100% - 16px, 760px);
+    padding-top: 10px;
+  }
+
+  .card {
+    padding: 18px 15px;
+    border-radius: 16px;
+  }
+
+  .progress-row {
+    font-size: 0.92rem;
+  }
+}
+
+</style>
+</head>
+
+<body>
+  <main class="app-shell">
+
+    <section id="startScreen" class="card screen active">
+      <div class="badge">令和8年度対応</div>
+      <h1>💊 薬学的有害事象等防止加算クイズ</h1>
+
+      <p class="lead">
+        「イ・ロ・ハ・ニ」の区分と、<br>
+        レセプト摘要で使う内容の要点を、実際の場面を想定して確認してみましょう。
+      </p>
+
+      <div class="notice">
+        <strong>このクイズのポイント</strong>
+        <p>① 在宅患者かどうか</p>
+        <p>② 処方箋交付前の提案か、交付後の照会か</p>
+        <p>③ かかりつけ薬剤師による照会か</p>
+        <p>④ 内容の要点は 901～907 のどれか</p>
+        <p>⑤ 「イ」の場合は、変更内容 1002～1006 も確認</p>
+      </div>
+
+      <div class="code-guide">
+        <strong>内容の要点</strong>
+        <p>901 重複投薬 ／ 902 相互作用 ／ 903 アレルギー・副作用歴</p>
+        <p>904 年齢・体重 ／ 905 肝・腎機能等 ／ 906 授乳・妊婦 ／ 907 その他</p>
+      </div>
+
+      <p class="question-count">全10問</p>
+      <button id="startButton" class="primary-button" type="button">開始する</button>
+    </section>
+
+    <section id="quizScreen" class="card screen">
+      <div class="progress-row">
+        <span id="progressText">問題1 / 10</span>
+        <span id="scoreText">正解 0</span>
+      </div>
+
+      <div class="progress-track">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+
+      <div id="questionText" class="question"></div>
+
+      <div id="answerButtons" class="answer-buttons"></div>
+
+      <div id="feedback" class="feedback hidden" aria-live="polite"></div>
+      <button id="nextButton" class="primary-button hidden" type="button">次の問題へ</button>
+    </section>
+
+    <section id="resultScreen" class="card screen">
+      <div class="badge">クイズ終了！</div>
+      <h2>お疲れさまでした😊</h2>
+      <p id="resultScore" class="result-score"></p>
+      <p id="wrongAnswerText" class="wrong-answer-text"></p>
+
+      <form id="resultForm" novalidate>
+        <label>
+          店舗名
+          <input id="storeName" name="storeName" type="text" autocomplete="organization" required>
+        </label>
+
+        <label>
+          名前
+          <input id="userName" name="userName" type="text" autocomplete="name" required>
+        </label>
+
+        <fieldset>
+          <legend>このクイズの難易度はどうでしたか？</legend>
+          <label class="radio-label">
+            <input type="radio" name="difficulty" value="簡単" required>
+            簡単
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="difficulty" value="ちょうどいい">
+            ちょうどいい
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="difficulty" value="難しい">
+            難しい
+          </label>
+        </fieldset>
+
+        <p id="formError" class="form-error hidden"></p>
+        <button id="sendButton" class="primary-button" type="submit">結果を送信する</button>
+      </form>
+
+      <div id="sendStatus" class="send-status hidden" aria-live="polite"></div>
+      <button id="retryButton" class="secondary-button" type="button" disabled>もう一度する</button>
+    </section>
+
+  </main>
+
+  <script>
+const QUIZ_NAME = "薬学的有害事象等防止加算クイズ";
+
+// 既存クイズと同じ Apps Script のウェブアプリURL
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxCGQdVIRdGYjocIAdfrMA_gUYtxovXCQBj41DBKXuUZTP7BKx5z0YVRRHIheU5RTI/exec";
+
+const questions = [
+  {
+    text: `
+      <strong>問題1</strong>
+      <div class="case-box">
+        在宅患者。処方箋を受け付けた後、お薬手帳から他院の同一成分薬との重複を発見した。<br>
+        処方医へ照会し、今回処方の薬剤が削除された。
+      </div>
+      最も適切な組み合わせは？
+    `,
+    choices: [
+      "イ ＋ 901",
+      "ロ ＋ 901",
+      "ハ ＋ 901",
+      "ニ ＋ 901"
+    ],
+    answer: 1,
+    explanation:
+      "在宅患者でも、処方箋交付後の照会による変更は「ロ」です。内容の要点は、同種・同効の併用薬との重複投薬なので901です。"
+  },
+  {
+    text: `
+      <strong>問題2</strong>
+      <div class="case-box">
+        外来患者。かかりつけ薬剤師が、併用薬との併用禁忌を確認した。<br>
+        処方医へ照会した結果、別薬へ変更された。
+      </div>
+      最も適切な組み合わせは？
+    `,
+    choices: [
+      "ロ ＋ 902",
+      "ハ ＋ 902",
+      "ニ ＋ 902",
+      "ハ ＋ 901"
+    ],
+    answer: 1,
+    explanation:
+      "在宅患者ではなく、かかりつけ薬剤師による照会で処方変更されたため「ハ」です。併用禁忌は相互作用に該当するため902です。"
+  },
+  {
+    text: `
+      <strong>問題3</strong>
+      <div class="case-box">
+        外来患者。かかりつけ薬剤師ではない薬剤師が、患者から「以前この薬で発疹が出た」と聞き取った。<br>
+        薬歴でも副作用歴を確認し、処方医への照会後、別薬へ変更された。
+      </div>
+      最も適切な組み合わせは？
+    `,
+    choices: [
+      "ハ ＋ 903",
+      "ニ ＋ 903",
+      "ニ ＋ 902",
+      "ロ ＋ 903"
+    ],
+    answer: 1,
+    explanation:
+      "在宅患者でも、かかりつけ薬剤師による照会でもないため「ニ」です。過去のアレルギー歴・副作用歴に基づく変更なので903です。"
+  },
+  {
+    text: `
+      <strong>問題4</strong>
+      <div class="case-box">
+        在宅患者。次回の処方箋が交付される前に、腎機能低下を踏まえて薬剤師が処方医へ減量を提案した。<br>
+        その提案が反映され、用量が減量された処方箋を後日受け付けた。
+      </div>
+      最も適切な組み合わせは？
+    `,
+    choices: [
+      "イ ＋ 905 ＋ 1004",
+      "ロ ＋ 905",
+      "イ ＋ 904 ＋ 1004",
+      "ハ ＋ 905"
+    ],
+    answer: 0,
+    explanation:
+      "在宅患者について処方箋交付前に処方内容を相談・提案し、その提案が反映されたため「イ」です。理由は肝・腎機能等による影響なので905、変更内容は用量変更なので1004です。"
+  },
+  {
+    text: `
+      <strong>問題5</strong>
+      <div class="case-box">
+        外来患者。かかりつけ薬剤師ではない薬剤師が、小児の体重からみて処方量が過量と判断した。<br>
+        処方医へ照会し、用量が減量された。
+      </div>
+      最も適切な組み合わせは？
+    `,
+    choices: [
+      "ハ ＋ 904",
+      "ニ ＋ 904",
+      "ニ ＋ 905",
+      "ロ ＋ 904"
+    ],
+    answer: 1,
+    explanation:
+      "外来患者で、かかりつけ薬剤師による照会ではないため「ニ」です。判断根拠が年齢・体重による影響なので904です。"
+  },
+  {
+    text: `
+      <strong>問題6</strong>
+      <div class="case-box">
+        在宅患者。定期訪問時、次回処方箋が発行される前に、他院薬と同効薬が重複していることを把握した。<br>
+        薬剤中止を提案し、その提案が反映された処方箋を後日受け付けた。
+      </div>
+      最も適切な組み合わせは？
+    `,
+    choices: [
+      "イ ＋ 901 ＋ 1006",
+      "ロ ＋ 901",
+      "ハ ＋ 901",
+      "ニ ＋ 901"
+    ],
+    answer: 0,
+    explanation:
+      "処方箋交付前の在宅患者への提案が反映されたため「イ」です。理由は重複投薬なので901。中止は1002～1005のいずれにも該当しないため、変更内容は1006「その他」と整理します。"
+  },
+  {
+    text: `
+      <strong>問題7</strong>
+      <div class="case-box">
+        在宅患者。処方箋交付前に、嚥下状態を踏まえて同一成分の別剤形への変更を提案した。<br>
+        その提案が反映された処方箋を受け付けた。変更理由は901～906のいずれにも該当しないものとする。
+      </div>
+      最も適切な組み合わせは？
+    `,
+    choices: [
+      "イ ＋ 907 ＋ 1003",
+      "ロ ＋ 907",
+      "イ ＋ 904 ＋ 1003",
+      "ニ ＋ 907"
+    ],
+    answer: 0,
+    explanation:
+      "処方箋交付前の在宅患者への提案なので「イ」です。理由はその他の薬学的観点として907、変更内容は剤形の変更なので1003です。"
+  },
+  {
+    text: `
+      <strong>問題8</strong>
+      <div class="case-box">
+        在宅患者。処方箋を受け付けた後、妊娠中であることを確認した。<br>
+        処方医へ照会し、処方薬が別薬へ変更された。
+      </div>
+      最も適切な組み合わせは？
+    `,
+    choices: [
+      "イ ＋ 906",
+      "ロ ＋ 906",
+      "ハ ＋ 906",
+      "ロ ＋ 903"
+    ],
+    answer: 1,
+    explanation:
+      "在宅患者ですが処方箋交付後の照会なので「ロ」です。妊婦への影響が理由なので906です。「イ」ではないため1002～1006の追加選択は行いません。"
+  },
+  {
+    text: `
+      <strong>問題9</strong>
+      <div class="case-box">
+        外来患者。かかりつけ薬剤師が、患者が日常的に摂取している飲食物と処方薬との相互作用を確認した。<br>
+        処方医へ照会し、処方変更となった。
+      </div>
+      最も適切な組み合わせは？
+    `,
+    choices: [
+      "ハ ＋ 902",
+      "ハ ＋ 907",
+      "ニ ＋ 902",
+      "ロ ＋ 902"
+    ],
+    answer: 0,
+    explanation:
+      "イ・ロには該当せず、かかりつけ薬剤師による照会で処方変更されたため「ハ」です。飲食物との相互作用は902です。"
+  },
+  {
+    text: `
+      <strong>問題10</strong>
+      <div class="case-box">
+        在宅患者。処方箋交付前に、901～906には該当しない薬学的な用法上の問題を指摘し、処方医へ変更を提案した。<br>
+        提案どおり用法が変更された処方箋を受け付けた。
+      </div>
+      最も適切な組み合わせは？
+    `,
+    choices: [
+      "イ ＋ 907 ＋ 1005",
+      "ロ ＋ 907",
+      "イ ＋ 907 ＋ 1004",
+      "ニ ＋ 907"
+    ],
+    answer: 0,
+    explanation:
+      "処方箋交付前の在宅患者への提案が反映されたため「イ」です。内容の要点は907、変更内容は用法の変更なので1005です。"
+  }
+];
+
+const startScreen = document.getElementById("startScreen");
+const quizScreen = document.getElementById("quizScreen");
+const resultScreen = document.getElementById("resultScreen");
+
+const startButton = document.getElementById("startButton");
+const progressText = document.getElementById("progressText");
+const scoreText = document.getElementById("scoreText");
+const progressBar = document.getElementById("progressBar");
+const questionText = document.getElementById("questionText");
+const answerButtons = document.getElementById("answerButtons");
+const feedback = document.getElementById("feedback");
+const nextButton = document.getElementById("nextButton");
+
+const resultScore = document.getElementById("resultScore");
+const wrongAnswerText = document.getElementById("wrongAnswerText");
+const resultForm = document.getElementById("resultForm");
+const storeName = document.getElementById("storeName");
+const userName = document.getElementById("userName");
+const formError = document.getElementById("formError");
+const sendButton = document.getElementById("sendButton");
+const sendStatus = document.getElementById("sendStatus");
+const retryButton = document.getElementById("retryButton");
+
+let currentQuestionIndex = 0;
+let correctCount = 0;
+let wrongAnswers = [];
+let answered = false;
+
+function showScreen(screen) {
+  [startScreen, quizScreen, resultScreen].forEach((item) => {
+    item.classList.toggle("active", item === screen);
+  });
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function resetQuizState() {
+  currentQuestionIndex = 0;
+  correctCount = 0;
+  wrongAnswers = [];
+  answered = false;
+
+  feedback.className = "feedback hidden";
+  feedback.innerHTML = "";
+  nextButton.classList.add("hidden");
+  retryButton.disabled = true;
+
+  sendStatus.className = "send-status hidden";
+  sendStatus.textContent = "";
+  formError.className = "form-error hidden";
+  formError.textContent = "";
+
+  sendButton.disabled = false;
+  sendButton.textContent = "結果を送信する";
+
+  resultForm.reset();
+}
+
+function startQuiz() {
+  resetQuizState();
+  showScreen(quizScreen);
+  renderQuestion();
+}
+
+function renderQuestion() {
+  answered = false;
+
+  const q = questions[currentQuestionIndex];
+
+  progressText.textContent =
+    `問題${currentQuestionIndex + 1} / ${questions.length}`;
+  scoreText.textContent = `正解 ${correctCount}`;
+  progressBar.style.width =
+    `${((currentQuestionIndex + 1) / questions.length) * 100}%`;
+
+  questionText.innerHTML = q.text;
+  answerButtons.innerHTML = "";
+
+  q.choices.forEach((choice, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "answer-button";
+    button.textContent = choice;
+    button.addEventListener("click", () => answerQuestion(index));
+    answerButtons.appendChild(button);
+  });
+
+  feedback.className = "feedback hidden";
+  feedback.innerHTML = "";
+  nextButton.classList.add("hidden");
+}
+
+function answerQuestion(selectedIndex) {
+  if (answered) return;
+  answered = true;
+
+  const q = questions[currentQuestionIndex];
+  const buttons = [...answerButtons.querySelectorAll(".answer-button")];
+  const isCorrect = selectedIndex === q.answer;
+
+  buttons.forEach((button, index) => {
+    button.disabled = true;
+
+    if (index === q.answer) {
+      button.classList.add("correct-choice");
+    }
+
+    if (index === selectedIndex && !isCorrect) {
+      button.classList.add("wrong-choice");
+    }
+  });
+
+  if (isCorrect) {
+    correctCount += 1;
+    feedback.className = "feedback correct";
+    feedback.innerHTML =
+      `⭕ 正解！<span class="explanation">${q.explanation}</span>`;
+  } else {
+    wrongAnswers.push(currentQuestionIndex + 1);
+    feedback.className = "feedback wrong";
+    feedback.innerHTML =
+      `❌ 不正解<br>正解：${q.choices[q.answer]}` +
+      `<span class="explanation">${q.explanation}</span>`;
+  }
+
+  scoreText.textContent = `正解 ${correctCount}`;
+  nextButton.textContent =
+    currentQuestionIndex === questions.length - 1
+      ? "結果を見る"
+      : "次の問題へ";
+
+  nextButton.classList.remove("hidden");
+}
+
+function goNext() {
+  if (!answered) return;
+
+  if (currentQuestionIndex < questions.length - 1) {
+    currentQuestionIndex += 1;
+    renderQuestion();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    return;
+  }
+
+  showResult();
+}
+
+function showResult() {
+  resultScore.textContent =
+    `${questions.length}問中 ${correctCount}問正解！`;
+
+  wrongAnswerText.textContent =
+    wrongAnswers.length === 0
+      ? "全問正解です🎉"
+      : `誤答番号：${wrongAnswers.join("、")}`;
+
+  showScreen(resultScreen);
+}
+
+async function submitResult(event) {
+  event.preventDefault();
+
+  const difficultyInput =
+    resultForm.querySelector('input[name="difficulty"]:checked');
+
+  const payload = {
+    storeName: storeName.value.trim(),
+    userName: userName.value.trim(),
+    difficulty: difficultyInput ? difficultyInput.value : "",
+    scoreDisplay: `${correctCount}/${questions.length}`,
+    wrongAnswers:
+      wrongAnswers.length === 0 ? "なし" : wrongAnswers.join(",")
+  };
+
+  if (!payload.storeName || !payload.userName || !payload.difficulty) {
+    formError.textContent =
+      "店舗名・名前・難易度をすべて入力してください。";
+    formError.classList.remove("hidden");
+    return;
+  }
+
+  formError.classList.add("hidden");
+  sendStatus.classList.remove("hidden");
+  sendStatus.textContent = "送信中です…";
+  sendButton.disabled = true;
+  sendButton.textContent = "送信中…";
+
+  const sendData = {
+    quiz: QUIZ_NAME,
+    store: payload.storeName,
+    name: payload.userName,
+    difficulty: payload.difficulty,
+    score: payload.scoreDisplay,
+    answers: payload.wrongAnswers
+  };
+
+  try {
+    await fetch(WEB_APP_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify(sendData)
+    });
+
+    sendStatus.textContent = "✅ 結果を送信しました！";
+    sendButton.textContent = "送信済み";
+    retryButton.disabled = false;
+  } catch (error) {
+    console.error(error);
+    sendStatus.textContent =
+      "送信できませんでした。通信状況とApps ScriptのURLを確認してください。";
+    sendButton.disabled = false;
+    sendButton.textContent = "結果を送信する";
+    retryButton.disabled = true;
+  }
+}
+
+startButton.addEventListener("click", startQuiz);
+nextButton.addEventListener("click", goNext);
+resultForm.addEventListener("submit", submitResult);
+retryButton.addEventListener("click", startQuiz);
+
+</script>
+</body>
+</html>
