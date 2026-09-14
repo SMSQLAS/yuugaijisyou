@@ -343,22 +343,28 @@ legend {
 
 /* ===== 区分・コード早見表 ===== */
 .desktop-code-guide {
+  display: none;
   position: fixed;
-  left: max(18px, calc(50vw - 610px));
-  top: 120px;
-  width: 260px;
+  left: max(18px, calc(50vw - 735px));
+  top: 90px;
+  width: 320px;
   z-index: 5;
 }
 
+/* クイズ画面（2ページ目以降）のときだけ表示 */
+body.quiz-mode .desktop-code-guide {
+  display: block;
+}
+
 .guide-box {
-  padding: 16px 18px;
+  padding: 18px 20px;
   background: #ffffff;
   border: 1px solid var(--border);
   border-left: 5px solid var(--primary);
   border-radius: 16px;
   box-shadow: 0 8px 24px rgba(24, 79, 85, 0.08);
-  font-size: 0.88rem;
-  line-height: 1.55;
+  font-size: 0.92rem;
+  line-height: 1.6;
 }
 
 .guide-box h3 {
@@ -380,7 +386,8 @@ legend {
 }
 
 .guide-section p {
-  margin: 3px 0;
+  margin: 4px 0;
+  white-space: nowrap;
 }
 
 .mobile-code-guide {
@@ -414,12 +421,13 @@ legend {
   margin: 10px 0;
 }
 
-@media (max-width: 1180px) {
-  .desktop-code-guide {
+/* 左に320pxの早見表＋余白を確保できない幅では、問題上部の折りたたみに切替 */
+@media (max-width: 1480px) {
+  body.quiz-mode .desktop-code-guide {
     display: none;
   }
 
-  .mobile-code-guide {
+  body.quiz-mode .mobile-code-guide {
     display: block;
   }
 }
