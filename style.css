@@ -348,3 +348,17 @@ legend {
 .selection-button:disabled {cursor:default;}
 #submitAnswerButton:disabled {opacity:.45;cursor:not-allowed;}
 @media(max-width:420px){.selection-grid{gap:5px}.selection-button{min-height:40px;font-size:.92rem}.selection-heading{font-size:.76rem}}
+
+/* 問題画面の左側に常時表示する早見表。開始画面は変更しない */
+@media(min-width:800px){
+  .app-shell:has(#quizScreen.active){width:min(1180px,calc(100% - 32px));}
+  .quiz-layout{display:grid;grid-template-columns:minmax(230px,0.85fr) minmax(0,2fr);gap:24px;align-items:start;}
+  .quiz-reference{position:sticky;top:14px;max-height:calc(100vh - 28px);overflow:auto;}
+}
+.quiz-reference{background:#f5fbfb;border:1px solid var(--border);border-radius:14px;padding:14px;font-size:.83rem;line-height:1.45;}
+.quiz-reference>strong{font-size:1.1rem;}
+.reference-section{border-top:1px solid var(--border);padding-top:9px;margin-top:10px;}
+.reference-section>b{color:var(--primary-dark);}
+.reference-section p{margin:5px 0;}
+.quiz-main{min-width:0;}
+@media(max-width:799px){.quiz-reference{margin-bottom:18px;}}
