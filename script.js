@@ -228,6 +228,10 @@ function showScreen(screen) {
   [startScreen, quizScreen, resultScreen].forEach((item) => {
     item.classList.toggle("active", item === screen);
   });
+
+  // 早見表はクイズ画面（2ページ目以降）だけ表示
+  document.body.classList.toggle("quiz-mode", screen === quizScreen);
+
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
