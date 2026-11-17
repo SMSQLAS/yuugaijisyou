@@ -3,6 +3,8 @@ const QUIZ_NAME = "薬学的有害事象等防止加算クイズ";
 // 既存クイズと同じ Apps Script のウェブアプリURL
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxCGQdVIRdGYjocIAdfrMA_gUYtxovXCQBj41DBKXuUZTP7BKx5z0YVRRHIheU5RTI/exec";
 
+const answerKeys = [["ロ", "901", "なし"], ["ハ", "902", "なし"], ["ニ", "903", "なし"], ["イ", "905", "1004"], ["ニ", "904", "なし"], ["イ", "901", "1006"], ["イ", "907", "1003"], ["ロ", "906", "なし"], ["ハ", "902", "なし"], ["イ", "907", "1005"]];
+
 const questions = [
   {
     text: `
@@ -206,6 +208,7 @@ const scoreText = document.getElementById("scoreText");
 const progressBar = document.getElementById("progressBar");
 const questionText = document.getElementById("questionText");
 const answerButtons = document.getElementById("answerButtons");
+const submitAnswerButton = document.getElementById("submitAnswerButton");
 const feedback = document.getElementById("feedback");
 const nextButton = document.getElementById("nextButton");
 
@@ -263,73 +266,81 @@ function startQuiz() {
   renderQuestion();
 }
 
+const selectedAnswers = { category: null, reason: null, change: null };
+
 function renderQuestion() {
   answered = false;
-
+  selectedAnswers.category = null;
+  selectedAnswers.reason = null;
+  selectedAnswers.change = null;
   const q = questions[currentQuestionIndex];
-
-  progressText.textContent =
-    `問題${currentQuestionIndex + 1} / ${questions.length}`;
+  progressText.textContent = `問題${currentQuestionIndex + 1} / ${questions.length}`;
   scoreText.textContent = `正解 ${correctCount}`;
-  progressBar.style.width =
-    `${((currentQuestionIndex + 1) / questions.length) * 100}%`;
-
+  progressBar.style.width = `${((currentQuestionIndex + 1) / questions.length) * 100}%`;
   questionText.innerHTML = q.text;
   answerButtons.innerHTML = "";
-
-  q.choices.forEach((choice, index) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "answer-button";
-    button.textContent = choice;
-    button.addEventListener("click", () => answerQuestion(index));
-    answerButtons.appendChild(button);
+  const grid = document.createElement("div");
+  grid.className = "selection-grid";
+  const groups = [
+    { key: "category", title: "加算区分", options: ["イ", "ロ", "ハ", "ニ"] },
+    { key: "reason", title: "内容の要点", options: ["901", "902", "903", "904", "905", "906", "907", "なし"] },
+    { key: "change", title: "変更内容", options: ["1002", "1003", "1004", "1005", "1006", "なし"] }
+  ];
+  groups.forEach(group => {
+    const column = document.createElement("div");
+    column.className = "selection-column";
+    const heading = document.createElement("div");
+    heading.className = "selection-heading";
+    heading.textContent = group.title;
+    column.appendChild(heading);
+    group.options.forEach(value => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "selection-button";
+      button.textContent = value;
+      button.setAttribute("aria-pressed", "false");
+      button.addEventListener("click", () => {
+        if (answered) return;
+        selectedAnswers[group.key] = value;
+        column.querySelectorAll(".selection-button").forEach(b => {
+          const active = b === button;
+          b.classList.toggle("selected", active);
+          b.setAttribute("aria-pressed", String(active));
+        });
+        submitAnswerButton.disabled = !Object.values(selectedAnswers).every(Boolean);
+      });
+      column.appendChild(button);
+    });
+    grid.appendChild(column);
   });
-
+  answerButtons.appendChild(grid);
+  submitAnswerButton.disabled = true;
+  submitAnswerButton.classList.remove("hidden");
   feedback.className = "feedback hidden";
   feedback.innerHTML = "";
   nextButton.classList.add("hidden");
 }
 
-function answerQuestion(selectedIndex) {
-  if (answered) return;
+function answerQuestion() {
+  if (answered || !Object.values(selectedAnswers).every(Boolean)) return;
   answered = true;
-
   const q = questions[currentQuestionIndex];
-  const buttons = [...answerButtons.querySelectorAll(".answer-button")];
-  const isCorrect = selectedIndex === q.answer;
-
-  buttons.forEach((button, index) => {
-    button.disabled = true;
-
-    if (index === q.answer) {
-      button.classList.add("correct-choice");
-    }
-
-    if (index === selectedIndex && !isCorrect) {
-      button.classList.add("wrong-choice");
-    }
-  });
-
+  const correct = answerKeys[currentQuestionIndex];
+  const picked = [selectedAnswers.category, selectedAnswers.reason, selectedAnswers.change];
+  const isCorrect = picked.every((value, index) => value === correct[index]);
+  answerButtons.querySelectorAll(".selection-button").forEach(b => { b.disabled = true; });
+  submitAnswerButton.classList.add("hidden");
   if (isCorrect) {
     correctCount += 1;
     feedback.className = "feedback correct";
-    feedback.innerHTML =
-      `⭕ 正解！<span class="explanation">${q.explanation}</span>`;
+    feedback.innerHTML = `⭕ 正解！<span class="explanation">${q.explanation}</span>`;
   } else {
     wrongAnswers.push(currentQuestionIndex + 1);
     feedback.className = "feedback wrong";
-    feedback.innerHTML =
-      `❌ 不正解<br>正解：${q.choices[q.answer]}` +
-      `<span class="explanation">${q.explanation}</span>`;
+    feedback.innerHTML = `❌ 不正解<br>あなたの回答：${picked.join(" ＋ ")}<br>正解：${correct.join(" ＋ ")}<span class="explanation">${q.explanation}</span>`;
   }
-
   scoreText.textContent = `正解 ${correctCount}`;
-  nextButton.textContent =
-    currentQuestionIndex === questions.length - 1
-      ? "結果を見る"
-      : "次の問題へ";
-
+  nextButton.textContent = currentQuestionIndex === questions.length - 1 ? "結果を見る" : "次の問題へ";
   nextButton.classList.remove("hidden");
 }
 
@@ -419,6 +430,7 @@ async function submitResult(event) {
 }
 
 startButton.addEventListener("click", startQuiz);
+submitAnswerButton.addEventListener("click", answerQuestion);
 nextButton.addEventListener("click", goNext);
 resultForm.addEventListener("submit", submitResult);
 retryButton.addEventListener("click", startQuiz);
