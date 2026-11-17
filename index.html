@@ -8,40 +8,6 @@
 </head>
 
 <body>
-  <aside class="desktop-code-guide" aria-label="区分・摘要コード早見表">
-    <div class="guide-box">
-      <h3>💡 早見表</h3>
-
-      <div class="guide-section">
-        <strong>薬学的有害事象等防止加算の区分</strong>
-        <p><b>イ</b>　在宅患者・処方箋交付前の提案</p>
-        <p><b>ロ</b>　在宅患者・処方箋交付後の照会</p>
-        <p><b>ハ</b>　外来・かかりつけ薬剤師による照会</p>
-        <p><b>ニ</b>　外来・上記以外の薬剤師による照会</p>
-      </div>
-
-      <div class="guide-section">
-        <strong>レセコンのコードNo.〈内容の要点〉</strong>
-        <p><b>901</b>　重複投薬</p>
-        <p><b>902</b>　相互作用</p>
-        <p><b>903</b>　アレルギー・副作用歴</p>
-        <p><b>904</b>　年齢・体重</p>
-        <p><b>905</b>　肝・腎機能等</p>
-        <p><b>906</b>　授乳・妊婦</p>
-        <p><b>907</b>　その他</p>
-      </div>
-
-      <div class="guide-section">
-        <strong>レセコンのコードNo.〈イの場合の変更内容〉</strong>
-        <p><b>1002</b>　同種同効薬への変更</p>
-        <p><b>1003</b>　剤形変更</p>
-        <p><b>1004</b>　用量変更</p>
-        <p><b>1005</b>　用法変更</p>
-        <p><b>1006</b>　その他</p>
-      </div>
-    </div>
-  </aside>
-
   <main class="app-shell">
 
     <section id="startScreen" class="card screen active">
@@ -63,9 +29,23 @@
       </div>
 
       <div class="code-guide">
-        <strong>内容の要点</strong>
+        <strong>イ・ロ・ハ・ニの区分</strong>
+        <p><b>イ（50点）</b><br>在宅患者について、<b>処方箋交付前</b>に処方医へ相談・提案し、その内容が処方箋に反映された場合</p>
+        <p><b>ロ（50点）</b><br>在宅患者について、<b>処方箋交付後</b>に処方医へ照会し、処方変更が行われた場合（イを除く）</p>
+        <p><b>ハ（50点）</b><br>イ・ロ以外で、<b>かかりつけ薬剤師</b>が処方医へ照会し、処方変更が行われた場合</p>
+        <p><b>ニ（30点）</b><br><b>イ・ロ・ハ以外</b>で、処方医へ照会し、処方変更が行われた場合</p>
+      </div>
+
+      <div class="code-guide">
+        <strong>内容の要点（901～907）</strong>
         <p>901 重複投薬 ／ 902 相互作用 ／ 903 アレルギー・副作用歴</p>
         <p>904 年齢・体重 ／ 905 肝・腎機能等 ／ 906 授乳・妊婦 ／ 907 その他</p>
+      </div>
+
+      <div class="code-guide">
+        <strong>「イ」の場合の変更内容（1002～1006）</strong>
+        <p>1002 同種同効薬への変更 ／ 1003 剤形の変更</p>
+        <p>1004 用量の変更 ／ 1005 用法の変更 ／ 1006 その他</p>
       </div>
 
       <p class="question-count">全10問</p>
@@ -73,31 +53,6 @@
     </section>
 
     <section id="quizScreen" class="card screen">
-
-      <details class="mobile-code-guide">
-        <summary>💡 早見表を見る</summary>
-
-          <h4>薬学的有害事象等防止加算の区分</h4>
-          <p><strong>イ</strong>　在宅患者・処方箋交付前の提案</p>
-          <p><strong>ロ</strong>　在宅患者・処方箋交付後の照会</p>
-          <p><strong>ハ</strong>　外来・かかりつけ薬剤師による照会</p>
-          <p><strong>ニ</strong>　外来・上記以外の薬剤師による照会</p>
-
-          <hr>
-          <h4>レセコンのコードNo.〈内容の要点〉</h4>
-          <p><strong>901</strong> 重複投薬 ／ <strong>902</strong> 相互作用</p>
-          <p><strong>903</strong> アレルギー・副作用歴 ／ <strong>904</strong> 年齢・体重</p>
-          <p><strong>905</strong> 肝・腎機能等 ／ <strong>906</strong> 授乳・妊婦</p>
-          <p><strong>907</strong> その他</p>
-
-          <hr>
-          <h4>レセコンのコードNo.〈イの場合の変更内容〉</h4>
-          <p><strong>1002</strong> 同種同効薬への変更</p>
-          <p><strong>1003</strong> 剤形変更 ／ <strong>1004</strong> 用量変更</p>
-          <p><strong>1005</strong> 用法変更 ／ <strong>1006</strong> その他</p>
-        </div>
-      </details>
-
       <div class="progress-row">
         <span id="progressText">問題1 / 10</span>
         <span id="scoreText">正解 0</span>
@@ -110,6 +65,7 @@
       <div id="questionText" class="question"></div>
 
       <div id="answerButtons" class="answer-buttons"></div>
+      <button id="submitAnswerButton" class="primary-button" type="button" disabled>回答する</button>
 
       <div id="feedback" class="feedback hidden" aria-live="polite"></div>
       <button id="nextButton" class="primary-button hidden" type="button">次の問題へ</button>

@@ -1,1 +1,1 @@
-
+GitHub Pages 用クイズ。index.html / style.css / script.js をアップロードしてください。各問3列から1つずつ選択し、3項目すべて一致で1点です。既存の Apps Script への送信形式は維持しています。Apps Script 側の「有害事象回答」タブ振り分け設定は別途必要です。
