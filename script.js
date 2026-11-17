@@ -13,6 +13,13 @@ const questions = [
       </div>
       最も適切な組み合わせは？
     `,
+    choices: [
+      "イ ＋ 901",
+      "ロ ＋ 901",
+      "ハ ＋ 901",
+      "ニ ＋ 901"
+    ],
+    answer: 1,
     explanation:
       "在宅患者でも、処方箋交付後の照会による変更は「ロ」です。内容の要点は、同種・同効の併用薬との重複投薬なので901です。"
   },
@@ -25,6 +32,13 @@ const questions = [
       </div>
       最も適切な組み合わせは？
     `,
+    choices: [
+      "ロ ＋ 902",
+      "ハ ＋ 902",
+      "ニ ＋ 902",
+      "ハ ＋ 901"
+    ],
+    answer: 1,
     explanation:
       "在宅患者ではなく、かかりつけ薬剤師による照会で処方変更されたため「ハ」です。併用禁忌は相互作用に該当するため902です。"
   },
@@ -37,6 +51,13 @@ const questions = [
       </div>
       最も適切な組み合わせは？
     `,
+    choices: [
+      "ハ ＋ 903",
+      "ニ ＋ 903",
+      "ニ ＋ 902",
+      "ロ ＋ 903"
+    ],
+    answer: 1,
     explanation:
       "在宅患者でも、かかりつけ薬剤師による照会でもないため「ニ」です。過去のアレルギー歴・副作用歴に基づく変更なので903です。"
   },
@@ -49,6 +70,13 @@ const questions = [
       </div>
       最も適切な組み合わせは？
     `,
+    choices: [
+      "イ ＋ 905 ＋ 1004",
+      "ロ ＋ 905",
+      "イ ＋ 904 ＋ 1004",
+      "ハ ＋ 905"
+    ],
+    answer: 0,
     explanation:
       "在宅患者について処方箋交付前に処方内容を相談・提案し、その提案が反映されたため「イ」です。理由は肝・腎機能等による影響なので905、変更内容は用量変更なので1004です。"
   },
@@ -61,6 +89,13 @@ const questions = [
       </div>
       最も適切な組み合わせは？
     `,
+    choices: [
+      "ハ ＋ 904",
+      "ニ ＋ 904",
+      "ニ ＋ 905",
+      "ロ ＋ 904"
+    ],
+    answer: 1,
     explanation:
       "外来患者で、かかりつけ薬剤師による照会ではないため「ニ」です。判断根拠が年齢・体重による影響なので904です。"
   },
@@ -73,6 +108,13 @@ const questions = [
       </div>
       最も適切な組み合わせは？
     `,
+    choices: [
+      "イ ＋ 901 ＋ 1006",
+      "ロ ＋ 901",
+      "ハ ＋ 901",
+      "ニ ＋ 901"
+    ],
+    answer: 0,
     explanation:
       "処方箋交付前の在宅患者への提案が反映されたため「イ」です。理由は重複投薬なので901。中止は1002～1005のいずれにも該当しないため、変更内容は1006「その他」と整理します。"
   },
@@ -85,6 +127,13 @@ const questions = [
       </div>
       最も適切な組み合わせは？
     `,
+    choices: [
+      "イ ＋ 907 ＋ 1003",
+      "ロ ＋ 907",
+      "イ ＋ 904 ＋ 1003",
+      "ニ ＋ 907"
+    ],
+    answer: 0,
     explanation:
       "処方箋交付前の在宅患者への提案なので「イ」です。理由はその他の薬学的観点として907、変更内容は剤形の変更なので1003です。"
   },
@@ -97,6 +146,13 @@ const questions = [
       </div>
       最も適切な組み合わせは？
     `,
+    choices: [
+      "イ ＋ 906",
+      "ロ ＋ 906",
+      "ハ ＋ 906",
+      "ロ ＋ 903"
+    ],
+    answer: 1,
     explanation:
       "在宅患者ですが処方箋交付後の照会なので「ロ」です。妊婦への影響が理由なので906です。「イ」ではないため1002～1006の追加選択は行いません。"
   },
@@ -109,6 +165,13 @@ const questions = [
       </div>
       最も適切な組み合わせは？
     `,
+    choices: [
+      "ハ ＋ 902",
+      "ハ ＋ 907",
+      "ニ ＋ 902",
+      "ロ ＋ 902"
+    ],
+    answer: 0,
     explanation:
       "イ・ロには該当せず、かかりつけ薬剤師による照会で処方変更されたため「ハ」です。飲食物との相互作用は902です。"
   },
@@ -121,12 +184,18 @@ const questions = [
       </div>
       最も適切な組み合わせは？
     `,
+    choices: [
+      "イ ＋ 907 ＋ 1005",
+      "ロ ＋ 907",
+      "イ ＋ 907 ＋ 1004",
+      "ニ ＋ 907"
+    ],
+    answer: 0,
     explanation:
       "処方箋交付前の在宅患者への提案が反映されたため「イ」です。内容の要点は907、変更内容は用法の変更なので1005です。"
   }
 ];
 
-const answerKeys = [["ロ", "901", "なし"], ["ハ", "902", "なし"], ["ニ", "903", "なし"], ["イ", "905", "1004"], ["ニ", "904", "なし"], ["イ", "901", "1006"], ["イ", "907", "1003"], ["ロ", "906", "なし"], ["ハ", "902", "なし"], ["イ", "907", "1005"]];
 const startScreen = document.getElementById("startScreen");
 const quizScreen = document.getElementById("quizScreen");
 const resultScreen = document.getElementById("resultScreen");
@@ -137,7 +206,6 @@ const scoreText = document.getElementById("scoreText");
 const progressBar = document.getElementById("progressBar");
 const questionText = document.getElementById("questionText");
 const answerButtons = document.getElementById("answerButtons");
-const submitAnswerButton = document.getElementById("submitAnswerButton");
 const feedback = document.getElementById("feedback");
 const nextButton = document.getElementById("nextButton");
 
@@ -191,83 +259,73 @@ function startQuiz() {
   renderQuestion();
 }
 
-const selectedAnswers = { category: null, reason: null, change: null };
-
 function renderQuestion() {
   answered = false;
-  selectedAnswers.category = null;
-  selectedAnswers.reason = null;
-  selectedAnswers.change = null;
+
   const q = questions[currentQuestionIndex];
 
-  progressText.textContent = `問題${currentQuestionIndex + 1} / ${questions.length}`;
+  progressText.textContent =
+    `問題${currentQuestionIndex + 1} / ${questions.length}`;
   scoreText.textContent = `正解 ${correctCount}`;
-  progressBar.style.width = `${((currentQuestionIndex + 1) / questions.length) * 100}%`;
-  questionText.innerHTML = q.text.replace("最も適切な組み合わせは？", "該当する項目を各列から1つずつ選択してください。");
+  progressBar.style.width =
+    `${((currentQuestionIndex + 1) / questions.length) * 100}%`;
 
+  questionText.innerHTML = q.text;
   answerButtons.innerHTML = "";
-  const grid = document.createElement("div");
-  grid.className = "selection-grid";
-  const groups = [
-    { key: "category", title: "加算区分", options: ["イ","ロ","ハ","ニ"] },
-    { key: "reason", title: "内容の要点", options: ["901","902","903","904","905","906","907","なし"] },
-    { key: "change", title: "変更内容", options: ["1002","1003","1004","1005","1006","なし"] }
-  ];
-  groups.forEach(group => {
-    const column = document.createElement("div");
-    column.className = "selection-column";
-    const heading = document.createElement("div");
-    heading.className = "selection-heading";
-    heading.textContent = group.title;
-    column.appendChild(heading);
-    group.options.forEach(value => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "selection-button";
-      button.textContent = value;
-      button.setAttribute("aria-pressed","false");
-      button.addEventListener("click", () => {
-        if (answered) return;
-        selectedAnswers[group.key] = value;
-        column.querySelectorAll(".selection-button").forEach(b => {
-          const active = b === button;
-          b.classList.toggle("selected", active);
-          b.setAttribute("aria-pressed", String(active));
-        });
-        submitAnswerButton.disabled = !Object.values(selectedAnswers).every(Boolean);
-      });
-      column.appendChild(button);
-    });
-    grid.appendChild(column);
+
+  q.choices.forEach((choice, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "answer-button";
+    button.textContent = choice;
+    button.addEventListener("click", () => answerQuestion(index));
+    answerButtons.appendChild(button);
   });
-  answerButtons.appendChild(grid);
-  submitAnswerButton.disabled = true;
-  submitAnswerButton.classList.remove("hidden");
+
   feedback.className = "feedback hidden";
   feedback.innerHTML = "";
   nextButton.classList.add("hidden");
 }
 
-function answerQuestion() {
-  if (answered || !Object.values(selectedAnswers).every(Boolean)) return;
+function answerQuestion(selectedIndex) {
+  if (answered) return;
   answered = true;
+
   const q = questions[currentQuestionIndex];
-  const correct = answerKeys[currentQuestionIndex];
-  const picked = [selectedAnswers.category, selectedAnswers.reason, selectedAnswers.change];
-  const isCorrect = picked.every((value,i) => value === correct[i]);
-  answerButtons.querySelectorAll(".selection-button").forEach(b => b.disabled = true);
-  submitAnswerButton.classList.add("hidden");
+  const buttons = [...answerButtons.querySelectorAll(".answer-button")];
+  const isCorrect = selectedIndex === q.answer;
+
+  buttons.forEach((button, index) => {
+    button.disabled = true;
+
+    if (index === q.answer) {
+      button.classList.add("correct-choice");
+    }
+
+    if (index === selectedIndex && !isCorrect) {
+      button.classList.add("wrong-choice");
+    }
+  });
+
   if (isCorrect) {
     correctCount += 1;
     feedback.className = "feedback correct";
-    feedback.innerHTML = `⭕ 正解！<span class="explanation">${q.explanation}</span>`;
+    feedback.innerHTML =
+      `⭕ 正解！<span class="explanation">${q.explanation}</span>`;
   } else {
     wrongAnswers.push(currentQuestionIndex + 1);
     feedback.className = "feedback wrong";
-    feedback.innerHTML = `❌ 不正解<br>あなたの回答：${picked.join(" ＋ ")}<br>正解：${correct.join(" ＋ ")}<span class="explanation">${q.explanation}</span>`;
+    feedback.innerHTML =
+      `❌ 不正解<br>正解：${q.choices[q.answer]}` +
+      `<span class="explanation">${q.explanation}</span>`;
   }
+
   scoreText.textContent = `正解 ${correctCount}`;
-  nextButton.textContent = currentQuestionIndex === questions.length - 1 ? "結果を見る" : "次の問題へ";
+  nextButton.textContent =
+    currentQuestionIndex === questions.length - 1
+      ? "結果を見る"
+      : "次の問題へ";
+
   nextButton.classList.remove("hidden");
 }
 
@@ -357,7 +415,6 @@ async function submitResult(event) {
 }
 
 startButton.addEventListener("click", startQuiz);
-submitAnswerButton.addEventListener("click", answerQuestion);
 nextButton.addEventListener("click", goNext);
 resultForm.addEventListener("submit", submitResult);
 retryButton.addEventListener("click", startQuiz);

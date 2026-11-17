@@ -53,34 +53,21 @@
     </section>
 
     <section id="quizScreen" class="card screen">
-      <div class="quiz-layout">
-        <aside class="quiz-reference" aria-label="回答用早見表">
-          <strong>早見表</strong>
-          <div class="reference-section"><b>加算区分</b>
-            <p><b>イ（50点）</b> 在宅・処方箋交付前の相談・提案が反映</p>
-            <p><b>ロ（50点）</b> 在宅・処方箋交付後の照会による変更（イを除く）</p>
-            <p><b>ハ（50点）</b> かかりつけ薬剤師による照会・変更（イ・ロを除く）</p>
-            <p><b>ニ（30点）</b> イ・ロ・ハ以外の照会・変更</p>
-          </div>
-          <div class="reference-section"><b>内容の要点</b>
-            <p>901 重複投薬</p><p>902 相互作用</p><p>903 アレルギー・副作用歴</p>
-            <p>904 年齢・体重</p><p>905 肝・腎機能等</p><p>906 授乳・妊婦</p><p>907 その他</p>
-          </div>
-          <div class="reference-section"><b>イの場合の変更内容</b>
-            <p>1002 同種同効薬への変更</p><p>1003 剤形の変更</p><p>1004 用量の変更</p>
-            <p>1005 用法の変更</p><p>1006 その他</p><p>イ以外は「なし」</p>
-          </div>
-        </aside>
-        <div class="quiz-main">
-          <div class="progress-row"><span id="progressText">問題1 / 10</span><span id="scoreText">正解 0</span></div>
-          <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
-          <div id="questionText" class="question"></div>
-          <div id="answerButtons" class="answer-buttons"></div>
-          <button id="submitAnswerButton" class="primary-button" type="button" disabled>回答する</button>
-          <div id="feedback" class="feedback hidden" aria-live="polite"></div>
-          <button id="nextButton" class="primary-button hidden" type="button">次の問題へ</button>
-        </div>
+      <div class="progress-row">
+        <span id="progressText">問題1 / 10</span>
+        <span id="scoreText">正解 0</span>
       </div>
+
+      <div class="progress-track">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+
+      <div id="questionText" class="question"></div>
+
+      <div id="answerButtons" class="answer-buttons"></div>
+
+      <div id="feedback" class="feedback hidden" aria-live="polite"></div>
+      <button id="nextButton" class="primary-button hidden" type="button">次の問題へ</button>
     </section>
 
     <section id="resultScreen" class="card screen">
