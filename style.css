@@ -499,3 +499,6 @@ body.quiz-mode .desktop-code-guide {
 /* Hide quiz progress and score display; retain internal scoring. */
 #quizScreen .progress-row,
 #quizScreen .progress-track { display: none; }
+
+/* Keep the viewport width stable when answer feedback appears. */
+html { overflow-y: scroll; }
