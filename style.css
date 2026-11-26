@@ -461,15 +461,30 @@ body.quiz-mode .desktop-code-guide {
   margin: 10px 0;
 }
 
-/* 左に350pxの早見表＋余白を確保できない幅では、問題上部の折りたたみに切替 */
-@media (max-width: 1520px) {
+/* PCでは画面幅に合わせて左の早見表を常時表示 */
+@media (min-width: 761px) {
+  body.quiz-mode {
+    display: grid;
+    grid-template-columns: minmax(245px, 350px) minmax(0, 760px);
+    gap: 18px;
+    justify-content: center;
+    align-items: start;
+    padding: 0 14px;
+  }
   body.quiz-mode .desktop-code-guide {
-    display: none;
+    position: sticky;
+    top: 12px;
+    width: 100%;
+    margin-top: 22px;
+    max-height: calc(100vh - 24px);
+    overflow-y: auto;
   }
-
-  body.quiz-mode .mobile-code-guide {
-    display: block;
-  }
+  body.quiz-mode .app-shell { width: 100%; min-width: 0; }
+  .guide-section p, .guide-section > strong { white-space: normal; }
+}
+@media (max-width: 760px) {
+  body.quiz-mode .desktop-code-guide { display: none; }
+  body.quiz-mode .mobile-code-guide { display: block; }
 }
 
 /* 3列選択式の回答欄のみ追加 */
